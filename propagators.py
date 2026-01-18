@@ -1,7 +1,7 @@
 # =============================
-# Student Names:
-# Group ID:
-# Date:
+# Student Names: Kathryn Parenteau, Lauren Hunter, Charlotte Smith
+# Group ID: Group 9
+# Date: January 29th, 2026
 # =============================
 # CISC 352
 # propagators.py
@@ -147,6 +147,15 @@ def prop_FC(csp, newVar=None):
 def prop_GAC(csp, newVar=None):
     '''A propagator function that propagates according to the GAC algorithm, as covered in lecture. If
     newVar is None, run GAC on all constraints. Otherwise, only check constraints containing
-    newVar'''
-    #IMPLEMENT
+    newVar
+        GAC (Generalized Arc Consistency)
+
+        Looks at all constraints
+
+        For every variable in the constraint
+
+        For every value in that variable’s domain
+
+        Deletes values that have no supporting tuple
+    '''
     pass
