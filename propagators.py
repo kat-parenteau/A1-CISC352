@@ -120,7 +120,7 @@ def prop_FC(csp, newVar=None):
                         # If current domain is less than 1, return false and pruned list
                         if val.cur_domain_size() < 1:
                             return False, pruned
-        # Return true and pruned_list
+        # Return true and pruned list
         return True, pruned           
     else: 
         pruned = []
@@ -141,7 +141,7 @@ def prop_FC(csp, newVar=None):
                         # If current domain is less than 1, return false and pruned list
                         if val.cur_domain_size() < 1:
                             return False, pruned
-        # Return true and pruned_list
+        # Return true and pruned list
         return True, pruned 
 
 def prop_GAC(csp, newVar=None):
