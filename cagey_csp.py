@@ -84,7 +84,7 @@ An example of a 3x3 puzzle would be defined as:
 
 '''
 
-from cspbase import *
+from cspbase import CSP, Variable, Constraint
 
 def binary_ne_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only binary not-equal constraints for
