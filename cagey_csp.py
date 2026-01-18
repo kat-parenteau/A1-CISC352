@@ -1,7 +1,7 @@
 # =============================
-# Student Names: Kathryn Parenteau 
+# Student Names: Kathryn Parenteau, Lauren Hunter, Charlotte Smith
 # Group ID: Group 9
-# Date: January 23rd, 2026
+# Date: January 29th, 2026
 # =============================
 # CISC 352
 # cagey_csp.py
