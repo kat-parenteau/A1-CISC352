@@ -101,9 +101,34 @@ def prop_FC(csp, newVar=None):
     exactly one variable in their scope that has not assigned with a value, and prune appropriately. If
     newVar is None, forward check all constraints. Otherwise only check constraints containing
     newVar. '''
-    #IMPLEMENT
-    pass
-
+    if newVar is None:
+        pruned = []
+        for c in csp.get_all_cons():
+            if c.get_n_unasgn() == 1:
+                val = c.get_unasgn_vars()[0]
+                domain = val.cur_domain()
+                for dom in domain:
+                    to_prune = c.check_var_val(val, dom)
+                    if to_prune == False:
+                        pruned.append((val, dom))
+                        val.prune_value(dom)
+                        if val.cur_domain_size() < 1:
+                            return False, pruned
+        return True, pruned           
+    else: 
+        pruned = []
+        for c in csp.get_cons_with_var(newVar):
+            if c.get_n_unasgn() == 1:
+                val = c.get_unasgn_vars()[0]
+                domain = val.cur_domain()
+                for dom in domain:
+                    to_prune = c.check_var_val(val, dom)
+                    if to_prune == False:
+                        pruned.append((val, dom))
+                        val.prune_value(dom)
+                        if val.cur_domain_size() < 1:
+                            return False, pruned
+        return True, pruned 
 
 def prop_GAC(csp, newVar=None):
     '''A propagator function that propagates according to the GAC algorithm, as covered in lecture. If
