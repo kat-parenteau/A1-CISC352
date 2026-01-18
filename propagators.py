@@ -103,31 +103,45 @@ def prop_FC(csp, newVar=None):
     newVar. '''
     if newVar is None:
         pruned = []
+        # Loop through all conditions
         for c in csp.get_all_cons():
+            # If only 1 unassigned variable
             if c.get_n_unasgn() == 1:
                 val = c.get_unasgn_vars()[0]
                 domain = val.cur_domain()
+                # Loop through domain variables
                 for dom in domain:
+                    # Check if dom needs to be pruned
                     to_prune = c.check_var_val(val, dom)
                     if to_prune == False:
+                        # Prune value, and append to pruned list
                         pruned.append((val, dom))
                         val.prune_value(dom)
+                        # If current domain is less than 1, return false and pruned list
                         if val.cur_domain_size() < 1:
                             return False, pruned
+        # Return true and pruned_list
         return True, pruned           
     else: 
         pruned = []
+        # Loop through all conditions
         for c in csp.get_cons_with_var(newVar):
+            # If only 1 unassigned variable
             if c.get_n_unasgn() == 1:
                 val = c.get_unasgn_vars()[0]
                 domain = val.cur_domain()
+                # Loop through domain variables
                 for dom in domain:
+                    # Check if dom needs to be pruned
                     to_prune = c.check_var_val(val, dom)
                     if to_prune == False:
+                        # Prune value, and append to pruned list
                         pruned.append((val, dom))
                         val.prune_value(dom)
+                        # If current domain is less than 1, return false and pruned list
                         if val.cur_domain_size() < 1:
                             return False, pruned
+        # Return true and pruned_list
         return True, pruned 
 
 def prop_GAC(csp, newVar=None):
