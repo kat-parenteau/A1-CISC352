@@ -96,7 +96,7 @@ def binary_ne_grid(cagey_grid):
 def nary_ad_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only n-ary all-different constraints
     for both the row and column constraints. '''
-    ## IMPLEMENT
+    ##IMPLEMENT
     pass
 
 def cagey_csp_model(cagey_grid):
