@@ -80,6 +80,9 @@
          for gac we initialize the GAC queue with all constraints containing V.
    '''
 
+from tabnanny import check
+
+
 def prop_BT(csp, newVar=None):
     '''Do plain backtracking propagation. That is, do no
     propagation at all. Just check fully instantiated constraints'''
@@ -148,14 +151,43 @@ def prop_GAC(csp, newVar=None):
     '''A propagator function that propagates according to the GAC algorithm, as covered in lecture. If
     newVar is None, run GAC on all constraints. Otherwise, only check constraints containing
     newVar
-        GAC (Generalized Arc Consistency)
-
-        Looks at all constraints
-
-        For every variable in the constraint
-
-        For every value in that variable’s domain
-
-        Deletes values that have no supporting tuple
     '''
-    pass
+    if newVar is None:
+        pruned = []
+        gac_queue = list(csp.get_all_cons())
+        while gac_queue:
+            constraint = gac_queue.pop(0)
+            helper_pruned = helper_GAC(constraint)
+            if helper_pruned is None:
+                return False, pruned
+            ''' gotta fix this, i think it's wrong
+            for var in helper_pruned:
+                gac_queue.append(csp.get_cons_with_var(var))
+            pruned.append(helper_pruned)
+            '''
+    else:
+        pruned = []
+        gac_queue = list(csp.get_all_cons)
+        while gac_queue:
+            constraint = gac_queue.pop(0)
+            helper_pruned = helper_GAC(constraint)
+            if helper_pruned is None:
+                return False, pruned
+            ''' gotta fix this, i think it's wrong
+            for var in helper_pruned:
+                gac_queue.append(csp.get_cons_with_var(var))
+            pruned.append(helper_pruned)
+             '''
+    return True, pruned
+
+def helper_GAC(constraint):
+    pruned = []
+    for var in constraint.get_scope():
+        for val in list(var.cur_domain()):
+            to_prune = constraint.check_var_val(var, val)
+            if to_prune == False:
+                pruned.append((var, val))
+                var.prune_value(val)
+                if var.cur_domain_size() < 1:
+                    return None
+    return pruned
