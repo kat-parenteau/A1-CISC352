@@ -61,11 +61,10 @@ def ord_mrv(csp):
     next_var_len = float('inf')
     next_var = None
 
-    for var in csp.get_unasgn_vars:
-        domains = var.cur_domain()
-        if len(domains) < next_var_len:
+    for var in csp.get_all_unasgn_vars():
+        if var.cur_domain_size() < next_var_len:
+            next_var_len = var.cur_domain_size()
             next_var = var
-            next_var_len = len(domains)
     
     return next_var
 
