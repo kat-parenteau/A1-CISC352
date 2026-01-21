@@ -37,16 +37,24 @@ var_ordering == a function with the following template
    '''
 
 def ord_dh(csp):
-    ''' A variable ordering heuristic that chooses the next variable to be assigned according to the MinimumRemaining-Value (MRV) heuristic. ord mrv returns the variable with the most constrained current
-    domain (i.e., the variable with the fewest legal values remaining). '''
-    next_var_len = float('inf')
-    next_var = None
+    ''' A variable ordering heuristic that chooses the next variable to be assigned according to the Degree
+    heuristic (DH). ord dh returns the variable that is involved in the largest number of constraints,
+    which have other unassigned variables. '''
 
-    for var in csp.get_unasgn_vars:
-        domains = var.cur_domain()
-        if len(domains) < next_var_len:
+    # NOT COMPLETED 
+    next_var_len = -1
+    next_var = None
+    #con_count = 0
+
+    for var in csp.get_all_unasgn_vars():
+        con_count = 0
+        for c in csp.get_cons_with_var(var):
+            #con_count += 1
+            if c.get_n_unasgn() >= 2: #unassigned variables OTHER than the current var
+                con_count += 1
+        if con_count > next_var_len:
+            next_var_len = con_count
             next_var = var
-            next_var_len = len(domains)
     
     return next_var
 
@@ -54,20 +62,19 @@ def ord_dh(csp):
     #pass
 
 def ord_mrv(csp):
-    ''' A variable ordering heuristic that chooses the next variable to be assigned according to the Degree
-    heuristic (DH). ord dh returns the variable that is involved in the largest number of constraints,
-    which have other unassigned variables. '''
-    # NOT COMPLETED 
-    next_var_len = 0
+    ''' A variable ordering heuristic that chooses the next variable to be assigned according to the MinimumRemaining-Value (MRV) heuristic. ord mrv returns the variable with the most constrained current
+    domain (i.e., the variable with the fewest legal values remaining). '''
+
+    next_var_len = float('inf')
     next_var = None
 
-    for var in csp:
-        c = csp.get_cons_with_var(var)
-        if len(c) > next_var_len:
-            next_var_len = len(c)
+    for var in csp.get_all_unasgn_vars():
+        if var.cur_domain_size() < next_var_len:
+            next_var_len = var.cur_domain_size()
             next_var = var
+    
     return next_var
 
     # IMPLEMENT
-    pass
+    #pass
 
