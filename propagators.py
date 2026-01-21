@@ -129,7 +129,7 @@ def prop_FC(csp, newVar=None):
         pruned = []
         # Loop through all conditions
         for c in csp.get_cons_with_var(newVar):
-            # If only 1 unassigned variable
+            # If only 1 unassigned variable left
             if c.get_n_unasgn() == 1:
                 val = c.get_unasgn_vars()[0]
                 domain = val.cur_domain()
@@ -152,32 +152,28 @@ def prop_GAC(csp, newVar=None):
     newVar is None, run GAC on all constraints. Otherwise, only check constraints containing
     newVar
     '''
+    pruned = []
     if newVar is None:
-        pruned = []
         gac_queue = list(csp.get_all_cons())
         while gac_queue:
             constraint = gac_queue.pop(0)
             helper_pruned = helper_GAC(constraint)
             if helper_pruned is None:
                 return False, pruned
-            ''' gotta fix this, i think it's wrong
-            for var in helper_pruned:
-                gac_queue.append(csp.get_cons_with_var(var))
-            pruned.append(helper_pruned)
-            '''
+            ''' extend is used in both of these below cases to append a list to the end of another list '''
+            for var, val in helper_pruned:
+                gac_queue.extend(csp.get_cons_with_var(var))
+            pruned.extend(helper_pruned)
     else:
-        pruned = []
-        gac_queue = list(csp.get_all_cons)
         while gac_queue:
             constraint = gac_queue.pop(0)
             helper_pruned = helper_GAC(constraint)
             if helper_pruned is None:
                 return False, pruned
-            ''' gotta fix this, i think it's wrong
-            for var in helper_pruned:
-                gac_queue.append(csp.get_cons_with_var(var))
-            pruned.append(helper_pruned)
-             '''
+            ''' extend is used in both of these below cases to append a list to the end of another list '''
+            for var, val in helper_pruned:
+                gac_queue.extend(csp.get_cons_with_var(var))
+            pruned.extend(helper_pruned)      
     return True, pruned
 
 def helper_GAC(constraint):
