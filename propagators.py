@@ -104,8 +104,8 @@ def prop_FC(csp, newVar=None):
     exactly one variable in their scope that has not assigned with a value, and prune appropriately. If
     newVar is None, forward check all constraints. Otherwise only check constraints containing
     newVar. '''
+    pruned = []
     if newVar is None:
-        pruned = []
         # Loop through all conditions
         for c in csp.get_all_cons():
             # If only 1 unassigned variable
@@ -126,7 +126,6 @@ def prop_FC(csp, newVar=None):
         # Return true and pruned list
         return True, pruned           
     else: 
-        pruned = []
         # Loop through all conditions
         for c in csp.get_cons_with_var(newVar):
             # If only 1 unassigned variable left
@@ -153,37 +152,56 @@ def prop_GAC(csp, newVar=None):
     newVar
     '''
     pruned = []
+    # add all constraints to the queue
+    gac_queue = list(csp.get_all_cons())
     if newVar is None:
-        gac_queue = list(csp.get_all_cons())
+        # while the queue is not empty
         while gac_queue:
+            # take the first constraint off of the queue (FIFO)
             constraint = gac_queue.pop(0)
+            # call the helper function, which returns a list of variables to prune
             helper_pruned = helper_GAC(constraint)
+            # if there are no variable to prune, return false and the existing pruned list
             if helper_pruned is None:
                 return False, pruned
-            ''' extend is used in both of these below cases to append a list to the end of another list '''
+            # otherwise, add all of the constraint with the (var, val) tuples from the helper function to the queue
             for var, val in helper_pruned:
                 gac_queue.extend(csp.get_cons_with_var(var))
+            # add pruned values to the main pruned list
             pruned.extend(helper_pruned)
     else:
+        # while the queue is not empty
         while gac_queue:
+            # take the first constraint off of the queue (FIFO)
             constraint = gac_queue.pop(0)
+            # call the helper function, which returns a list of variables to prune
             helper_pruned = helper_GAC(constraint)
+            # if there are no variable to prune, return false and the existing pruned list
             if helper_pruned is None:
                 return False, pruned
-            ''' extend is used in both of these below cases to append a list to the end of another list '''
+            # otherwise, add all of the constraint with the (var, val) tuples from the helper function to the queue
             for var, val in helper_pruned:
                 gac_queue.extend(csp.get_cons_with_var(var))
-            pruned.extend(helper_pruned)      
+            # add pruned values to the main pruned list
+            pruned.extend(helper_pruned) 
+    # return status as True and the final main pruned list     
     return True, pruned
 
 def helper_GAC(constraint):
     pruned = []
+    # find all variables involved in the constraint
     for var in constraint.get_scope():
+        # find the domain/scope of each variable
         for val in list(var.cur_domain()):
+            # check if each (var, val) tuple needs to be pruned
             to_prune = constraint.check_var_val(var, val)
+            # if not satisfied, append to the pruned list
             if to_prune == False:
                 pruned.append((var, val))
+                # prune value
                 var.prune_value(val)
+                # if no variables left in the domain after a value is pruned, stop and return None
                 if var.cur_domain_size() < 1:
                     return None
+    # return the list of pruned (var, val) tuples
     return pruned
