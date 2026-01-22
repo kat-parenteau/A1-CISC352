@@ -105,46 +105,25 @@ def prop_FC(csp, newVar=None):
     newVar is None, forward check all constraints. Otherwise only check constraints containing
     newVar. '''
     pruned = []
-    if newVar is None:
-        # Loop through all conditions
-        for c in csp.get_all_cons():
-            # If only 1 unassigned variable
-            if c.get_n_unasgn() == 1:
-                val = c.get_unasgn_vars()[0]
-                domain = val.cur_domain()
-                # Loop through domain variables
-                for dom in domain:
+    constraints = csp.get_all_cons() if newVar is None else csp.get_cons_with_var(newVar)
+    # Loop through all conditions
+    for c in constraints:
+        # If only 1 unassigned variable
+        if c.get_n_unasgn() == 1:
+            val = c.get_unasgn_vars()[0]
+            domain = val.cur_domain()
+            # Loop through domain variables
+            for dom in domain:
                     # Check if dom needs to be pruned
-                    to_prune = c.check_var_val(val, dom)
-                    if to_prune == False:
+                    if  not c.check_var_val(val, dom):
                         # Prune value, and append to pruned list
                         pruned.append((val, dom))
                         val.prune_value(dom)
                         # If current domain is less than 1, return false and pruned list
-                        if val.cur_domain_size() < 1:
+                        if val.cur_domain_size() == 0:
                             return False, pruned
         # Return true and pruned list
-        return True, pruned           
-    else: 
-        # Loop through all conditions
-        for c in csp.get_cons_with_var(newVar):
-            # If only 1 unassigned variable left
-            if c.get_n_unasgn() == 1:
-                val = c.get_unasgn_vars()[0]
-                domain = val.cur_domain()
-                # Loop through domain variables
-                for dom in domain:
-                    # Check if dom needs to be pruned
-                    to_prune = c.check_var_val(val, dom)
-                    if to_prune == False:
-                        # Prune value, and append to pruned list
-                        pruned.append((val, dom))
-                        val.prune_value(dom)
-                        # If current domain is less than 1, return false and pruned list
-                        if val.cur_domain_size() < 1:
-                            return False, pruned
-        # Return true and pruned list
-        return True, pruned 
+    return True, pruned           
 
 def prop_GAC(csp, newVar=None):
     '''A propagator function that propagates according to the GAC algorithm, as covered in lecture. If
@@ -152,56 +131,45 @@ def prop_GAC(csp, newVar=None):
     newVar
     '''
     pruned = []
-    # add all constraints to the queue
-    gac_queue = list(csp.get_all_cons())
+    # initialize GAC queue with all constraints or only those involving newVar
     if newVar is None:
-        # while the queue is not empty
-        while gac_queue:
-            # take the first constraint off of the queue (FIFO)
-            constraint = gac_queue.pop(0)
-            # call the helper function, which returns a list of variables to prune
-            helper_pruned = helper_GAC(constraint)
-            # if there are no variable to prune, return false and the existing pruned list
-            if helper_pruned is None:
-                return False, pruned
-            # otherwise, add all of the constraint with the (var, val) tuples from the helper function to the queue
-            for var, val in helper_pruned:
-                gac_queue.extend(csp.get_cons_with_var(var))
-            # add pruned values to the main pruned list
-            pruned.extend(helper_pruned)
+        gac_queue = list(csp.get_all_cons())
     else:
-        # while the queue is not empty
-        while gac_queue:
-            # take the first constraint off of the queue (FIFO)
-            constraint = gac_queue.pop(0)
-            # call the helper function, which returns a list of variables to prune
-            helper_pruned = helper_GAC(constraint)
-            # if there are no variable to prune, return false and the existing pruned list
-            if helper_pruned is None:
-                return False, pruned
-            # otherwise, add all of the constraint with the (var, val) tuples from the helper function to the queue
-            for var, val in helper_pruned:
-                gac_queue.extend(csp.get_cons_with_var(var))
-            # add pruned values to the main pruned list
-            pruned.extend(helper_pruned) 
-    # return status as True and the final main pruned list     
+        gac_queue = list(csp.get_cons_with_var(newVar))
+    # process constraints until queue is empty
+    while gac_queue:
+        # remove and process first constraint from queue
+        constraint = gac_queue.pop(0)
+        # check all variables in constraint for unsupported values
+        helper_pruned = helper_GAC(constraint)
+        # dead end if any variable's domain becomes empty
+        if helper_pruned is None:
+            return False, pruned
+        # add constraints of pruned variables back to queue (except current constraint)
+        for var, _ in helper_pruned:
+            for con in csp.get_cons_with_var(var):
+                if con != constraint and con not in gac_queue:
+                    gac_queue.append(con)
+        # accumulate all pruned variable-value pairs
+        pruned.extend(helper_pruned)
+    
     return True, pruned
 
 def helper_GAC(constraint):
+    '''check if each value in each variable's domain has support under this constraint.
+    remove unsupported values and return list of pruned (variable, value) pairs.
+    return None if any domain becomes empty.'''
     pruned = []
-    # find all variables involved in the constraint
+    # examine each variable in the constraint's scope
     for var in constraint.get_scope():
-        # find the domain/scope of each variable
+        # check each value in the variable's domain
         for val in list(var.cur_domain()):
-            # check if each (var, val) tuple needs to be pruned
-            to_prune = constraint.check_var_val(var, val)
-            # if not satisfied, append to the pruned list
-            if to_prune == False:
+            # remove value if it has no supporting tuple in constraint
+            if not constraint.check_var_val(var, val):
                 pruned.append((var, val))
-                # prune value
                 var.prune_value(val)
-                # if no variables left in the domain after a value is pruned, stop and return None
-                if var.cur_domain_size() < 1:
+                # propagation fails if domain becomes empty
+                if var.cur_domain_size() == 0:
                     return None
-    # return the list of pruned (var, val) tuples
+    
     return pruned
