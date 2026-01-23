@@ -141,24 +141,26 @@ def prop_GAC(csp, newVar=None):
         # remove and process first constraint from queue
         constraint = gac_queue.pop(0)
         # check all variables in constraint for unsupported values
-        helper_pruned = helper_GAC(constraint)
+        helper_pruned, status = helper_GAC(constraint)
+        # add newly pruned values to overall pruned list
+        pruned.extend(helper_pruned)
         # dead end if any variable's domain becomes empty
-        if helper_pruned is None:
+        if not status:
             return False, pruned
         # add constraints of pruned variables back to queue (except current constraint)
         for var, _ in helper_pruned:
+            # get all constraints containing this variable
             for con in csp.get_cons_with_var(var):
+                # only add if not the current constraint and not already in queue
                 if con != constraint and con not in gac_queue:
                     gac_queue.append(con)
-        # accumulate all pruned variable-value pairs
-        pruned.extend(helper_pruned)
     
     return True, pruned
 
 def helper_GAC(constraint):
     '''check if each value in each variable's domain has support under this constraint.
     remove unsupported values and return list of pruned (variable, value) pairs.
-    return None if any domain becomes empty.'''
+    return False if any domain becomes empty.'''
     pruned = []
     # examine each variable in the constraint's scope
     for var in constraint.get_scope():
@@ -166,10 +168,12 @@ def helper_GAC(constraint):
         for val in list(var.cur_domain()):
             # remove value if it has no supporting tuple in constraint
             if not constraint.check_var_val(var, val):
+                # record the pruned value pair
                 pruned.append((var, val))
+                # remove value from variable's domain
                 var.prune_value(val)
                 # propagation fails if domain becomes empty
                 if var.cur_domain_size() == 0:
-                    return None
+                    return pruned, False
     
-    return pruned
+    return pruned, True
