@@ -89,8 +89,24 @@ from cspbase import CSP, Variable, Constraint
 def binary_ne_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only binary not-equal constraints for
     both the row and column constraints '''
-    ##IMPLEMENT
-    pass
+    
+    # Extract grid size and cages from input
+    n, cages = cagey_grid
+    
+    # Create variables for each grid cell
+    variables = []
+    
+    # Initialize CSP
+    csp = CSP()
+    
+    # Add variables to CSP
+    
+    # Add binary not-equal constraints for rows
+    
+    # Add binary not-equal constraints for columns
+    
+    # Return the CSP and variables
+    return csp, variables
 
 
 def nary_ad_grid(cagey_grid):
