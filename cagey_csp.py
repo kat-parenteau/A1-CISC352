@@ -8,6 +8,8 @@
 # desc:
 #
 
+import itertools
+
 #Look for #IMPLEMENT tags in this file.
 '''
 All models need to return a CSP object, and a list of Variable objects
@@ -89,35 +91,142 @@ from cspbase import CSP, Variable, Constraint
 def binary_ne_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only binary not-equal constraints for
     both the row and column constraints '''
-    
-    # Extract grid size and cages from input
-    n, cages = cagey_grid
-    
-    # Create variables for each grid cell
+
+    # (n, [cages])
+
+    # n - is the size of the grid,
+    # cages - is a list of tuples defining all cage constraints on a given grid.
+
+    # Binary not equal: the values in each row and column must be different
+    # Goal: turn a cagey_grid into a csp (reminder: some operations are ? (unknown))
+
+    # An example of a 3x3 puzzle would be defined as:
+    # (3, [(3,[(1,1), (2,1)],"+"),(1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")])
+
+    # Variable: a variable, with a name, and a domain (set of variables it can be)
+    # Constraint: a name, and scope. Satisfying tuples are added later (a set of satisfying tuples ((i.e., each tuple specifies a value 
+    #    for each variable in the scope such that this sequence of values satisfies the constraints))
+    # CSP: adding all vars into a csp. A name, and a list of vars (optional). Constraints must be added later
+
+    # For this cagey, the variables should be all of the squares in the grid.
+
+    # Should the scope be the size of the cage? (n, the dimension)
+
+    # Loop through all the squares and create vars for them
+    # [(3,[(1,1), (2,1)],"+"), (1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")]
+
+    n = list(cagey_grid)[0]
     variables = []
+
+    # Loop through all squares and create a variable for each
+    for row in range(1, n + 1):
+        for col in range(1, n + 1):
+            domain = list(range(1, n + 1))
+            var = Variable(f"Cell({row},{col})", domain)
+            variables.append(var)
+
+    # Create a csp of the variables
+    csp = CSP("binary_ne", variables)
+
+    # Define satisfactory tuples (rows and cols can't equal each other)
+    sat_tuples = []
+    for a in range(1, n + 1):
+        for b in range(1, n + 1):
+            if a != b:
+                sat_tuples.append((a, b))
+
+    # Column constraints
+    for col in range(n):
+        for row1 in range(n):
+            for row2 in range(row1 + 1, n):
+                var1 = variables[row1 * n + col]
+                var2 = variables[row2 * n + col]
+                con = Constraint(f"Column({col},[{row1},{row2}])", [var1, var2])
+                # Calculate satisfying tuples
+                con.add_satisfying_tuples(sat_tuples)
+                csp.add_constraint(con)
+
+    # Row constraints
+    for row in range(n):
+        for col1 in range(n):
+            for col2 in range(col1 + 1, n):
+                var1 = variables[row * n + col1]
+                var2 = variables[row * n + col2]
+                con = Constraint(f"Row({row},[{col1},{col2}])", [var1, var2])
+                # Calculate satisfying tuples
+                con.add_satisfying_tuples(sat_tuples)
+                csp.add_constraint(con)
     
-    # Initialize CSP
-    csp = CSP()
-    
-    # Add variables to CSP
-    
-    # Add binary not-equal constraints for rows
-    
-    # Add binary not-equal constraints for columns
-    
-    # Return the CSP and variables
+
+    # Retrun csp, vars
     return csp, variables
+
 
 
 def nary_ad_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only n-ary all-different constraints
     for both the row and column constraints. '''
-    ##IMPLEMENT
-    pass
+
+    n = list(cagey_grid)[0]
+    variables = []
+
+    # Loop through all squares and create a variable for each
+    for row in range(1, n + 1):
+        for col in range(1, n + 1):
+            domain = list(range(1, n + 1))
+            var = Variable(f"Cell({row},{col})", domain)
+            variables.append(var)
+
+    # Define csp
+    csp = CSP("nary_ad", variables)
+
+    # All possible permutations
+    sat_tuples = list(itertools.permutations(range(1, n + 1), n))
+
+    # Column constraints
+    for col in range(n):
+        col_vars = []
+        # Loop through rows and get column variables
+        for row in range(n):
+            col_vars.append(variables[row*n + col])
+        # Create consdtraint
+        con = Constraint(f"Row({row}), Col({col})", col_vars)
+        # Calculate satisfying tuples
+        con.add_satisfying_tuples(sat_tuples)
+        csp.add_constraint(con)
+
+    # Row constraints
+    for row in range(n):
+        row_vars = []
+        # Loop through columns and get row variables
+        for col in range(n):
+            row_vars.append(variables[row*n + col])
+        # Create constraint
+        con = Constraint(f"Row({row}), Col({col})", row_vars)
+        # Calculate satisfying tuples
+        con.add_satisfying_tuples(sat_tuples)
+        csp.add_constraint(con)
+
+    # Return csp and vars
+    return csp, variables
+
 
 def cagey_csp_model(cagey_grid):
     ''' A model built using your choice of (1) binary not-equal, or (2) n-ary all-different constraints for the
     grid, together with (3) cage constraints. That is, you will choose one of the previous two grid models
     and expand it to include cage constraints '''
     ##IMPLEMENT
+
+    # Call binary_ne_grid
+
+    # Then add cage constraints:
+    # Loop through all the squares and create vars for them
+    # [(3,[(1,1), (2,1)],"+"), (1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")]
+    csp = binary_ne_grid(cagey_grid)
+    n = list(cagey_grid)[0]
+
+    #for row in range(n):
+        #for col in range(n):
+
+
     pass
