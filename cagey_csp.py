@@ -222,11 +222,64 @@ def cagey_csp_model(cagey_grid):
     # Then add cage constraints:
     # Loop through all the squares and create vars for them
     # [(3,[(1,1), (2,1)],"+"), (1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")]
-    csp = binary_ne_grid(cagey_grid)
+    csp, variables = binary_ne_grid(cagey_grid)
     n = list(cagey_grid)[0]
+    cages = list(cagey_grid)[1]
 
-    #for row in range(n):
-        #for col in range(n):
+    # All possible permutations:
+    #perms = list(itertools.permutations(range(1, n + 1), n))
+    # ['1', '2']  --> 3
 
 
-    pass
+    for val in cages:
+        sat_tuples = []
+        perms = list(itertools.permutations(range(1, len(val[1]) + 1), len(val[1])))
+        result = val[0]
+        operation = val[-1]
+        for permutation in perms:
+            if operation == "+":
+                if sum(permutation) == result:
+                    sat_tuples.append(permutation)
+                    #break
+            if operation == "-":
+                minus = permutation[1:]
+                minus = minus * (-1)
+                if permutation[0] + minus == result:
+                    sat_tuples.append(permutation)
+                    #break
+            if operation == "*":
+                accumulator = 1
+                for p in permutation:
+                    accumulator *= p
+                if accumulator == result:
+                    sat_tuples.append(permutation)
+                    #break
+            if operation == "/":
+                temp = permutation[0]
+                for p in permutation[1:]:
+                    temp = temp/p
+                reverse_perms = list.reverse(permutation)
+                temp_2 = reverse_perms[0]
+                for p in permutation[1:]:
+                    temp_2 = temp_2/p
+                if temp == result or temp_2 == result:
+                    sat_tuples.append(permutation)
+                    #break
+            if operation == "%":
+                if sum(permutation)%result == 0:
+                    sat_tuples.append(permutation)
+                    #break
+            else:
+                if len(permutation) == 1 and permutation[0] == result:
+                    sat_tuples.append(permutation)
+                    #break
+        scope = []
+        for (r, c) in val[1]:
+            scope.append(variables[(r-1)*n + (c-1)])
+        # Create consdtraint
+        con = Constraint(f"{val[1]}", scope)
+        # Calculate satisfying tuples
+        con.add_satisfying_tuples(sat_tuples)
+        csp.add_constraint(con)
+
+    return csp, variables

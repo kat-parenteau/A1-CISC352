@@ -9934,3 +9934,689 @@ Code quality: ?/0.25
 Running time: 2026_01_29-17:57:41
 
 ===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid.test_bne_grid_1) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid.test_bne_grid_2) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid.test_bne_grid_3) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid.test_bne_grid_4) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid.test_bne_grid_5) ... ok
+test_cage_existence (__main__.TestCageConstraints.test_cage_existence) ... ERROR
+test_cages_1 (__main__.TestCageConstraints.test_cages_1) ... FAIL
+test_cages_2 (__main__.TestCageConstraints.test_cages_2) ... FAIL
+test_cages_3 (__main__.TestCageConstraints.test_cages_3) ... FAIL
+test_cages_4 (__main__.TestCageConstraints.test_cages_4) ... FAIL
+test_cages_5 (__main__.TestCageConstraints.test_cages_5) ... FAIL
+test_cages_6 (__main__.TestCageConstraints.test_cages_6) ... FAIL
+test_cages_7 (__main__.TestCageConstraints.test_cages_7) ... FAIL
+test_dh_1 (__main__.TestDH.test_dh_1) ... ok
+test_dh_2 (__main__.TestDH.test_dh_2) ... ok
+test_dh_3 (__main__.TestDH.test_dh_3) ... ok
+test_dh_4 (__main__.TestDH.test_dh_4) ... ok
+test_mrv_1 (__main__.TestMRV.test_mrv_1) ... ok
+test_mrv_2 (__main__.TestMRV.test_mrv_2) ... ok
+test_mrv_3 (__main__.TestMRV.test_mrv_3) ... ok
+test_mrv_4 (__main__.TestMRV.test_mrv_4) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid.test_nary_grid_1) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid.test_nary_grid_2) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid.test_nary_grid_3) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid.test_nary_grid_4) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC.test_bin_prop_fc_0) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC.test_bin_prop_fc_1) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC.test_bin_prop_fc_2) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC.test_bin_prop_fc_3) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC.test_bin_prop_fc_4) ... ok
+test_prop_fc_0 (__main__.TestPropFC.test_prop_fc_0) ... ok
+test_prop_fc_1 (__main__.TestPropFC.test_prop_fc_1) ... ok
+test_prop_fc_2 (__main__.TestPropFC.test_prop_fc_2) ... ok
+test_prop_fc_3 (__main__.TestPropFC.test_prop_fc_3) ... ok
+test_prop_fc_4 (__main__.TestPropFC.test_prop_fc_4) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC.test_prop_GAC_0) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC.test_prop_GAC_1) ... ok
+test_prop_GAC_10 (__main__.TestPropGAC.test_prop_GAC_10) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC.test_prop_GAC_2) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC.test_prop_GAC_3) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC.test_prop_GAC_4) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC.test_prop_GAC_5) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC.test_prop_GAC_6) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC.test_prop_GAC_7) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC.test_prop_GAC_8) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC.test_prop_GAC_9) ... ok
+
+======================================================================
+ERROR: test_cage_existence (__main__.TestCageConstraints.test_cage_existence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 631, in test_cage_existence
+    csp, var_array = cagey_csp_model(board)
+                     ~~~~~~~~~~~~~~~^^^^^^^
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\cagey_csp.py", line 272, in cagey_csp_model
+    con = Constraint(f"{val[1]}", n)
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\cspbase.py", line 226, in __init__
+    self.scope = list(scope)
+                 ~~~~^^^^^^^
+TypeError: 'int' object is not iterable
+
+======================================================================
+FAIL: test_cages_1 (__main__.TestCageConstraints.test_cages_1)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '+')])
+
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints.test_cages_2)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_3 (__main__.TestCageConstraints.test_cages_3)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '*')])
+
+
+======================================================================
+FAIL: test_cages_4 (__main__.TestCageConstraints.test_cages_4)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '+')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints.test_cages_5)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_6 (__main__.TestCageConstraints.test_cages_6)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '*')])
+
+
+======================================================================
+FAIL: test_cages_7 (__main__.TestCageConstraints.test_cages_7)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(1, [(1, 1), (1, 2), (2, 1), (2, 2)], '%')])
+
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.732s
+
+FAILED (failures=7, errors=1)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0003s
+test_bne_grid_2: 0.0004s
+test_bne_grid_3: 0.0011s
+test_bne_grid_4: 0.0053s
+test_bne_grid_5: 0.0074s
+test_nary_grid_1: 0.0001s
+test_nary_grid_2: 0.0004s
+test_nary_grid_3: 0.0024s
+test_nary_grid_4: 0.0221s
+test_bin_prop_fc_0: 0.0006s
+test_bin_prop_fc_1: 0.0021s
+test_bin_prop_fc_2: 0.0024s
+test_bin_prop_fc_3: 0.0019s
+test_bin_prop_fc_4: 0.0014s
+test_prop_fc_0: 0.0006s
+test_prop_fc_1: 0.2933s
+test_prop_fc_2: 0.5239s
+test_prop_fc_3: 0.0009s
+test_prop_fc_4: 0.5690s
+test_prop_GAC_0: 0.0009s
+test_prop_GAC_1: 0.0023s
+test_prop_GAC_10: 0.0900s
+test_prop_GAC_2: 0.0021s
+test_prop_GAC_3: 0.0019s
+test_prop_GAC_4: 0.0026s
+test_prop_GAC_5: 0.0060s
+test_prop_GAC_6: 0.0228s
+test_prop_GAC_7: 0.0073s
+test_prop_GAC_8: 0.0497s
+test_prop_GAC_9: 0.0891s
+----------------------------------------------------------------------
+Grades:
+
+FC: 0.5/0.5
+GAC: 0.75/0.75
+MRV: 0.25/0.25
+DH: 0.25/0.25
+BINARY: 0.25/0.25
+NARY: 0.25/0.25
+CAGEY: 0.0/0.5
+
+TOTAL: 2.25/2.75
+Code quality: ?/0.25
+
+Running time: 2026_01_29-18:39:02
+
+===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid.test_bne_grid_1) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid.test_bne_grid_2) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid.test_bne_grid_3) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid.test_bne_grid_4) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid.test_bne_grid_5) ... ok
+test_cage_existence (__main__.TestCageConstraints.test_cage_existence) ... ERROR
+test_cages_1 (__main__.TestCageConstraints.test_cages_1) ... FAIL
+test_cages_2 (__main__.TestCageConstraints.test_cages_2) ... FAIL
+test_cages_3 (__main__.TestCageConstraints.test_cages_3) ... FAIL
+test_cages_4 (__main__.TestCageConstraints.test_cages_4) ... FAIL
+test_cages_5 (__main__.TestCageConstraints.test_cages_5) ... FAIL
+test_cages_6 (__main__.TestCageConstraints.test_cages_6) ... FAIL
+test_cages_7 (__main__.TestCageConstraints.test_cages_7) ... FAIL
+test_dh_1 (__main__.TestDH.test_dh_1) ... ok
+test_dh_2 (__main__.TestDH.test_dh_2) ... ok
+test_dh_3 (__main__.TestDH.test_dh_3) ... ok
+test_dh_4 (__main__.TestDH.test_dh_4) ... ok
+test_mrv_1 (__main__.TestMRV.test_mrv_1) ... ok
+test_mrv_2 (__main__.TestMRV.test_mrv_2) ... ok
+test_mrv_3 (__main__.TestMRV.test_mrv_3) ... ok
+test_mrv_4 (__main__.TestMRV.test_mrv_4) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid.test_nary_grid_1) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid.test_nary_grid_2) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid.test_nary_grid_3) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid.test_nary_grid_4) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC.test_bin_prop_fc_0) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC.test_bin_prop_fc_1) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC.test_bin_prop_fc_2) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC.test_bin_prop_fc_3) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC.test_bin_prop_fc_4) ... ok
+test_prop_fc_0 (__main__.TestPropFC.test_prop_fc_0) ... ok
+test_prop_fc_1 (__main__.TestPropFC.test_prop_fc_1) ... ok
+test_prop_fc_2 (__main__.TestPropFC.test_prop_fc_2) ... ok
+test_prop_fc_3 (__main__.TestPropFC.test_prop_fc_3) ... ok
+test_prop_fc_4 (__main__.TestPropFC.test_prop_fc_4) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC.test_prop_GAC_0) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC.test_prop_GAC_1) ... ok
+test_prop_GAC_10 (__main__.TestPropGAC.test_prop_GAC_10) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC.test_prop_GAC_2) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC.test_prop_GAC_3) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC.test_prop_GAC_4) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC.test_prop_GAC_5) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC.test_prop_GAC_6) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC.test_prop_GAC_7) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC.test_prop_GAC_8) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC.test_prop_GAC_9) ... ok
+
+======================================================================
+ERROR: test_cage_existence (__main__.TestCageConstraints.test_cage_existence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 631, in test_cage_existence
+    csp, var_array = cagey_csp_model(board)
+                     ~~~~~~~~~~~~~~~^^^^^^^
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\cagey_csp.py", line 272, in cagey_csp_model
+    con = Constraint(f"{val[1]}", int(n))
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\cspbase.py", line 226, in __init__
+    self.scope = list(scope)
+                 ~~~~^^^^^^^
+TypeError: 'int' object is not iterable
+
+======================================================================
+FAIL: test_cages_1 (__main__.TestCageConstraints.test_cages_1)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '+')])
+
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints.test_cages_2)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_3 (__main__.TestCageConstraints.test_cages_3)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '*')])
+
+
+======================================================================
+FAIL: test_cages_4 (__main__.TestCageConstraints.test_cages_4)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '+')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints.test_cages_5)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_6 (__main__.TestCageConstraints.test_cages_6)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(3, [(10, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '*')])
+
+
+======================================================================
+FAIL: test_cages_7 (__main__.TestCageConstraints.test_cages_7)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "'int' object is not iterable". Failed to construct board!
+(2, [(1, [(1, 1), (1, 2), (2, 1), (2, 2)], '%')])
+
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.739s
+
+FAILED (failures=7, errors=1)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0003s
+test_bne_grid_2: 0.0002s
+test_bne_grid_3: 0.0010s
+test_bne_grid_4: 0.0073s
+test_bne_grid_5: 0.0079s
+test_nary_grid_1: 0.0002s
+test_nary_grid_2: 0.0007s
+test_nary_grid_3: 0.0026s
+test_nary_grid_4: 0.0269s
+test_bin_prop_fc_0: 0.0005s
+test_bin_prop_fc_1: 0.0019s
+test_bin_prop_fc_2: 0.0019s
+test_bin_prop_fc_3: 0.0013s
+test_bin_prop_fc_4: 0.0018s
+test_prop_fc_0: 0.0006s
+test_prop_fc_1: 0.2999s
+test_prop_fc_2: 0.5398s
+test_prop_fc_3: 0.0012s
+test_prop_fc_4: 0.5490s
+test_prop_GAC_0: 0.0006s
+test_prop_GAC_1: 0.0013s
+test_prop_GAC_10: 0.0821s
+test_prop_GAC_2: 0.0023s
+test_prop_GAC_3: 0.0021s
+test_prop_GAC_4: 0.0020s
+test_prop_GAC_5: 0.0069s
+test_prop_GAC_6: 0.0248s
+test_prop_GAC_7: 0.0065s
+test_prop_GAC_8: 0.0527s
+test_prop_GAC_9: 0.0834s
+----------------------------------------------------------------------
+Grades:
+
+FC: 0.5/0.5
+GAC: 0.75/0.75
+MRV: 0.25/0.25
+DH: 0.25/0.25
+BINARY: 0.25/0.25
+NARY: 0.25/0.25
+CAGEY: 0.0/0.5
+
+TOTAL: 2.25/2.75
+Code quality: ?/0.25
+
+Running time: 2026_01_29-18:42:55
+
+===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid.test_bne_grid_1) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid.test_bne_grid_2) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid.test_bne_grid_3) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid.test_bne_grid_4) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid.test_bne_grid_5) ... ok
+test_cage_existence (__main__.TestCageConstraints.test_cage_existence) ... FAIL
+test_cages_1 (__main__.TestCageConstraints.test_cages_1) ... ERROR
+test_cages_2 (__main__.TestCageConstraints.test_cages_2) ... FAIL
+test_cages_3 (__main__.TestCageConstraints.test_cages_3) ... ERROR
+test_cages_4 (__main__.TestCageConstraints.test_cages_4) ... ERROR
+test_cages_5 (__main__.TestCageConstraints.test_cages_5) ... FAIL
+test_cages_6 (__main__.TestCageConstraints.test_cages_6) ... ERROR
+test_cages_7 (__main__.TestCageConstraints.test_cages_7) ... FAIL
+test_dh_1 (__main__.TestDH.test_dh_1) ... ok
+test_dh_2 (__main__.TestDH.test_dh_2) ... ok
+test_dh_3 (__main__.TestDH.test_dh_3) ... ok
+test_dh_4 (__main__.TestDH.test_dh_4) ... ok
+test_mrv_1 (__main__.TestMRV.test_mrv_1) ... ok
+test_mrv_2 (__main__.TestMRV.test_mrv_2) ... ok
+test_mrv_3 (__main__.TestMRV.test_mrv_3) ... ok
+test_mrv_4 (__main__.TestMRV.test_mrv_4) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid.test_nary_grid_1) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid.test_nary_grid_2) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid.test_nary_grid_3) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid.test_nary_grid_4) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC.test_bin_prop_fc_0) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC.test_bin_prop_fc_1) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC.test_bin_prop_fc_2) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC.test_bin_prop_fc_3) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC.test_bin_prop_fc_4) ... ok
+test_prop_fc_0 (__main__.TestPropFC.test_prop_fc_0) ... ok
+test_prop_fc_1 (__main__.TestPropFC.test_prop_fc_1) ... ok
+test_prop_fc_2 (__main__.TestPropFC.test_prop_fc_2) ... ok
+test_prop_fc_3 (__main__.TestPropFC.test_prop_fc_3) ... ok
+test_prop_fc_4 (__main__.TestPropFC.test_prop_fc_4) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC.test_prop_GAC_0) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC.test_prop_GAC_1) ... ok
+test_prop_GAC_10 (__main__.TestPropGAC.test_prop_GAC_10) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC.test_prop_GAC_2) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC.test_prop_GAC_3) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC.test_prop_GAC_4) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC.test_prop_GAC_5) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC.test_prop_GAC_6) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC.test_prop_GAC_7) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC.test_prop_GAC_8) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC.test_prop_GAC_9) ... ok
+
+======================================================================
+ERROR: test_cages_1 (__main__.TestCageConstraints.test_cages_1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 674, in test_cages_1
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_3 (__main__.TestCageConstraints.test_cages_3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 823, in test_cages_3
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_4 (__main__.TestCageConstraints.test_cages_4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 897, in test_cages_4
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_6 (__main__.TestCageConstraints.test_cages_6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 1045, in test_cages_6
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_cage_existence (__main__.TestCageConstraints.test_cage_existence)
+----------------------------------------------------------------------
+AssertionError: False is not true : failed to find cage variable
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints.test_cages_2)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints.test_cages_5)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_7 (__main__.TestCageConstraints.test_cages_7)
+----------------------------------------------------------------------
+AssertionError: No cage constraints found with scope length 5 (4 cells + operator).
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.713s
+
+FAILED (failures=4, errors=4)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0003s
+test_bne_grid_2: 0.0002s
+test_bne_grid_3: 0.0010s
+test_bne_grid_4: 0.0056s
+test_bne_grid_5: 0.0095s
+test_nary_grid_1: 0.0001s
+test_nary_grid_2: 0.0005s
+test_nary_grid_3: 0.0035s
+test_nary_grid_4: 0.0227s
+test_bin_prop_fc_0: 0.0005s
+test_bin_prop_fc_1: 0.0015s
+test_bin_prop_fc_2: 0.0016s
+test_bin_prop_fc_3: 0.0018s
+test_bin_prop_fc_4: 0.0014s
+test_prop_fc_0: 0.0006s
+test_prop_fc_1: 0.2959s
+test_prop_fc_2: 0.5315s
+test_prop_fc_3: 0.0008s
+test_prop_fc_4: 0.5419s
+test_prop_GAC_0: 0.0009s
+test_prop_GAC_1: 0.0017s
+test_prop_GAC_10: 0.0898s
+test_prop_GAC_2: 0.0022s
+test_prop_GAC_3: 0.0017s
+test_prop_GAC_4: 0.0019s
+test_prop_GAC_5: 0.0063s
+test_prop_GAC_6: 0.0251s
+test_prop_GAC_7: 0.0078s
+test_prop_GAC_8: 0.0510s
+test_prop_GAC_9: 0.0831s
+----------------------------------------------------------------------
+Grades:
+
+FC: 0.5/0.5
+GAC: 0.75/0.75
+MRV: 0.25/0.25
+DH: 0.25/0.25
+BINARY: 0.25/0.25
+NARY: 0.25/0.25
+CAGEY: 0.0/0.5
+
+TOTAL: 2.25/2.75
+Code quality: ?/0.25
+
+Running time: 2026_01_29-18:43:49
+
+===========================================
+test_bne_grid_1 (__main__.TestBinaryGrid.test_bne_grid_1) ... ok
+test_bne_grid_2 (__main__.TestBinaryGrid.test_bne_grid_2) ... ok
+test_bne_grid_3 (__main__.TestBinaryGrid.test_bne_grid_3) ... ok
+test_bne_grid_4 (__main__.TestBinaryGrid.test_bne_grid_4) ... ok
+test_bne_grid_5 (__main__.TestBinaryGrid.test_bne_grid_5) ... ok
+test_cage_existence (__main__.TestCageConstraints.test_cage_existence) ... FAIL
+test_cages_1 (__main__.TestCageConstraints.test_cages_1) ... ERROR
+test_cages_2 (__main__.TestCageConstraints.test_cages_2) ... FAIL
+test_cages_3 (__main__.TestCageConstraints.test_cages_3) ... ERROR
+test_cages_4 (__main__.TestCageConstraints.test_cages_4) ... ERROR
+test_cages_5 (__main__.TestCageConstraints.test_cages_5) ... FAIL
+test_cages_6 (__main__.TestCageConstraints.test_cages_6) ... ERROR
+test_cages_7 (__main__.TestCageConstraints.test_cages_7) ... FAIL
+test_dh_1 (__main__.TestDH.test_dh_1) ... ok
+test_dh_2 (__main__.TestDH.test_dh_2) ... ok
+test_dh_3 (__main__.TestDH.test_dh_3) ... ok
+test_dh_4 (__main__.TestDH.test_dh_4) ... ok
+test_mrv_1 (__main__.TestMRV.test_mrv_1) ... ok
+test_mrv_2 (__main__.TestMRV.test_mrv_2) ... ok
+test_mrv_3 (__main__.TestMRV.test_mrv_3) ... ok
+test_mrv_4 (__main__.TestMRV.test_mrv_4) ... ok
+test_nary_grid_1 (__main__.TestNaryGrid.test_nary_grid_1) ... ok
+test_nary_grid_2 (__main__.TestNaryGrid.test_nary_grid_2) ... ok
+test_nary_grid_3 (__main__.TestNaryGrid.test_nary_grid_3) ... ok
+test_nary_grid_4 (__main__.TestNaryGrid.test_nary_grid_4) ... ok
+test_bin_prop_fc_0 (__main__.TestPropFC.test_bin_prop_fc_0) ... ok
+test_bin_prop_fc_1 (__main__.TestPropFC.test_bin_prop_fc_1) ... ok
+test_bin_prop_fc_2 (__main__.TestPropFC.test_bin_prop_fc_2) ... ok
+test_bin_prop_fc_3 (__main__.TestPropFC.test_bin_prop_fc_3) ... ok
+test_bin_prop_fc_4 (__main__.TestPropFC.test_bin_prop_fc_4) ... ok
+test_prop_fc_0 (__main__.TestPropFC.test_prop_fc_0) ... ok
+test_prop_fc_1 (__main__.TestPropFC.test_prop_fc_1) ... ok
+test_prop_fc_2 (__main__.TestPropFC.test_prop_fc_2) ... ok
+test_prop_fc_3 (__main__.TestPropFC.test_prop_fc_3) ... ok
+test_prop_fc_4 (__main__.TestPropFC.test_prop_fc_4) ... ok
+test_prop_GAC_0 (__main__.TestPropGAC.test_prop_GAC_0) ... ok
+test_prop_GAC_1 (__main__.TestPropGAC.test_prop_GAC_1) ... ok
+test_prop_GAC_10 (__main__.TestPropGAC.test_prop_GAC_10) ... ok
+test_prop_GAC_2 (__main__.TestPropGAC.test_prop_GAC_2) ... ok
+test_prop_GAC_3 (__main__.TestPropGAC.test_prop_GAC_3) ... ok
+test_prop_GAC_4 (__main__.TestPropGAC.test_prop_GAC_4) ... ok
+test_prop_GAC_5 (__main__.TestPropGAC.test_prop_GAC_5) ... ok
+test_prop_GAC_6 (__main__.TestPropGAC.test_prop_GAC_6) ... ok
+test_prop_GAC_7 (__main__.TestPropGAC.test_prop_GAC_7) ... ok
+test_prop_GAC_8 (__main__.TestPropGAC.test_prop_GAC_8) ... ok
+test_prop_GAC_9 (__main__.TestPropGAC.test_prop_GAC_9) ... ok
+
+======================================================================
+ERROR: test_cages_1 (__main__.TestCageConstraints.test_cages_1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 674, in test_cages_1
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_3 (__main__.TestCageConstraints.test_cages_3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 823, in test_cages_3
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_4 (__main__.TestCageConstraints.test_cages_4)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 897, in test_cages_4
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+ERROR: test_cages_6 (__main__.TestCageConstraints.test_cages_6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "c:\Users\charl\OneDrive\CISC 352\A1-CISC352\autograder_stu.py", line 1045, in test_cages_6
+    if not isinstance(guess[0].scope[0].dom[0], str):
+                      ~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_cage_existence (__main__.TestCageConstraints.test_cage_existence)
+----------------------------------------------------------------------
+AssertionError: False is not true : failed to find cage variable
+
+======================================================================
+FAIL: test_cages_2 (__main__.TestCageConstraints.test_cages_2)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(2, [(4, [(1, 1), (1, 2), (2, 1), (2, 2)], '-')])
+
+
+======================================================================
+FAIL: test_cages_5 (__main__.TestCageConstraints.test_cages_5)
+----------------------------------------------------------------------
+AssertionError: False is not true : 
+
+Student code threw exception "unsupported operand type(s) for +: 'int' and 'tuple'". Failed to construct board!
+(3, [(7, [(1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3)], '-')])
+
+
+======================================================================
+FAIL: test_cages_7 (__main__.TestCageConstraints.test_cages_7)
+----------------------------------------------------------------------
+AssertionError: No cage constraints found with scope length 5 (4 cells + operator).
+
+----------------------------------------------------------------------
+Ran 46 tests in 1.734s
+
+FAILED (failures=4, errors=4)
+----------------------------------------------------------------------
+Time spent:
+
+test_bne_grid_1: 0.0003s
+test_bne_grid_2: 0.0002s
+test_bne_grid_3: 0.0010s
+test_bne_grid_4: 0.0051s
+test_bne_grid_5: 0.0079s
+test_nary_grid_1: 0.0009s
+test_nary_grid_2: 0.0004s
+test_nary_grid_3: 0.0045s
+test_nary_grid_4: 0.0286s
+test_bin_prop_fc_0: 0.0004s
+test_bin_prop_fc_1: 0.0012s
+test_bin_prop_fc_2: 0.0013s
+test_bin_prop_fc_3: 0.0014s
+test_bin_prop_fc_4: 0.0012s
+test_prop_fc_0: 0.0007s
+test_prop_fc_1: 0.2919s
+test_prop_fc_2: 0.5218s
+test_prop_fc_3: 0.0009s
+test_prop_fc_4: 0.5668s
+test_prop_GAC_0: 0.0006s
+test_prop_GAC_1: 0.0014s
+test_prop_GAC_10: 0.0868s
+test_prop_GAC_2: 0.0021s
+test_prop_GAC_3: 0.0019s
+test_prop_GAC_4: 0.0019s
+test_prop_GAC_5: 0.0069s
+test_prop_GAC_6: 0.0245s
+test_prop_GAC_7: 0.0058s
+test_prop_GAC_8: 0.0485s
+test_prop_GAC_9: 0.0819s
+----------------------------------------------------------------------
+Grades:
+
+FC: 0.5/0.5
+GAC: 0.75/0.75
+MRV: 0.25/0.25
+DH: 0.25/0.25
+BINARY: 0.25/0.25
+NARY: 0.25/0.25
+CAGEY: 0.0/0.5
+
+TOTAL: 2.25/2.75
+Code quality: ?/0.25
+
+Running time: 2026_01_29-18:56:22
+
+===========================================
