@@ -215,71 +215,81 @@ def cagey_csp_model(cagey_grid):
     ''' A model built using your choice of (1) binary not-equal, or (2) n-ary all-different constraints for the
     grid, together with (3) cage constraints. That is, you will choose one of the previous two grid models
     and expand it to include cage constraints '''
-    ##IMPLEMENT
+    def cagey_csp_model(cagey_grid):
+    # Build base grid CSP (binary ne)
+    csp, board_vars = binary_ne_grid(cagey_grid)
+    n, cages = cagey_grid
+    all_vars = list(board_vars)
+    domain = ['+', '-', '*', '/', '%']
 
-    # Call binary_ne_grid
+    # Go through each cage
+    for i, (target, cells, op_char) in enumerate(cages):
+        # Find cell variables for this cage
+        cage_cell_vars = [board_vars[(row - 1) * n + (col - 1)] for (row, col) in cells]
 
-    # Then add cage constraints:
-    # Loop through all the squares and create vars for them
-    # [(3,[(1,1), (2,1)],"+"), (1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")]
-    csp, variables = binary_ne_grid(cagey_grid)
-    n = list(cagey_grid)[0]
-    cages = list(cagey_grid)[1]
+        # Create operator variable
+        parts = []
+        for (row, col) in cells:
+            parts.append('Var-Cell(%d,%d)' % (row, col))
+        
+        cell_parts = ', '.join(parts)
+        op_name = 'Cage_op(%s:%s:[%s])' % (target, op_char, cell_parts)
 
-    # All possible permutations:
-    #perms = list(itertools.permutations(range(1, n + 1), n))
-    # ['1', '2']  --> 3
+        if op_char == '?':
+            op_var = Variable(op_name, domain)
+        else:
+            op_var = Variable(op_name, [op_char])
 
+        csp.add_var(op_var)
+        all_vars.append(op_var)
 
-    for val in cages:
+        # Cage constraint scope = cell variables + operator variable
+        scope = cage_cell_vars + [op_var]
+        con = Constraint('Cage_%d' % i, scope)
+
+        # Domains don't change between cells
+        cell_domains = [range(1, n + 1)] * len(cage_cell_vars)
         sat_tuples = []
-        perms = list(itertools.permutations(range(1, len(val[1]) + 1), len(val[1])))
-        result = val[0]
-        operation = val[-1]
-        for permutation in perms:
-            if operation == "+":
-                if sum(permutation) == result:
-                    sat_tuples.append(permutation)
-                    #break
-            if operation == "-":
-                minus = permutation[1:]
-                minus = minus * (-1)
-                if permutation[0] + minus == result:
-                    sat_tuples.append(permutation)
-                    #break
-            if operation == "*":
-                accumulator = 1
-                for p in permutation:
-                    accumulator *= p
-                if accumulator == result:
-                    sat_tuples.append(permutation)
-                    #break
-            if operation == "/":
-                temp = permutation[0]
-                for p in permutation[1:]:
-                    temp = temp/p
-                reverse_perms = list.reverse(permutation)
-                temp_2 = reverse_perms[0]
-                for p in permutation[1:]:
-                    temp_2 = temp_2/p
-                if temp == result or temp_2 == result:
-                    sat_tuples.append(permutation)
-                    #break
-            if operation == "%":
-                if sum(permutation)%result == 0:
-                    sat_tuples.append(permutation)
-                    #break
-            else:
-                if len(permutation) == 1 and permutation[0] == result:
-                    sat_tuples.append(permutation)
-                    #break
-        scope = []
-        for (r, c) in val[1]:
-            scope.append(variables[(r-1)*n + (c-1)])
-        # Create consdtraint
-        con = Constraint(f"{val[1]}", scope)
-        # Calculate satisfying tuples
+        
+        # Try all value assignments
+        for vals in itertools.product(*cell_domains):
+            for op_val in op_var.domain():
+                found = False
+                for permutation in itertools.permutations(vals):
+                    if op_val == '+':
+                        result = sum(permutation)
+                    elif op_val == '*':
+                        result = 1
+                        for v in permutation:
+                            result *= v
+                    elif op_val == '-':
+                        result = permutation[0]
+                        for v in permutation[1:]:
+                            result -= v
+                    elif op_val == '/':
+                        result = permutation[0]
+                        ok = True
+                        for v in permutation[1:]:
+                            if v == 0 or (result % v) != 0:
+                                ok = False
+                                break
+                            result //= v
+                        if not ok:
+                            result = None
+                    elif op_val == '%':
+                        result = sum(permutation) % n
+                    else:
+                        result = None
+
+                    if result is not None and result == target:
+                        sat_tuples.append(tuple(list(vals) + [op_val]))
+                        found = True
+                        break
+                if found:
+                    break
+        
+        # Finalize constraint
         con.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(con)
-
-    return csp, variables
+    
+    return csp, all_vars
