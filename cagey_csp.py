@@ -210,23 +210,81 @@ def nary_ad_grid(cagey_grid):
     # Return csp and vars
     return csp, variables
 
-
 def cagey_csp_model(cagey_grid):
-    ''' A model built using your choice of (1) binary not-equal, or (2) n-ary all-different constraints for the
-    grid, together with (3) cage constraints. That is, you will choose one of the previous two grid models
-    and expand it to include cage constraints '''
-    ##IMPLEMENT
+    # Build base grid CSP (binary ne)
+    csp, board_vars = binary_ne_grid(cagey_grid)
+    n, cages = cagey_grid
+    all_vars = list(board_vars)
+    domain = ['+', '-', '*', '/', '%']
 
-    # Call binary_ne_grid
+    # Go through each cage
+    for i, (target, cells, op_char) in enumerate(cages):
+        # Find cell variables for this cage
+        cage_cell_vars = [board_vars[(row - 1) * n + (col - 1)] for (row, col) in cells]
 
-    # Then add cage constraints:
-    # Loop through all the squares and create vars for them
-    # [(3,[(1,1), (2,1)],"+"), (1, [(1,2)], '?'), (8, [(1,3), (2,3), (2,2)], "+"), (3, [(3,1)], '?'), (3, [(3,2), (3,3)], "+")]
-    csp = binary_ne_grid(cagey_grid)
-    n = list(cagey_grid)[0]
+        # Create operator variable
+        parts = []
+        for (row, col) in cells:
+            parts.append('Var-Cell(%d,%d)' % (row, col))
+        
+        cell_parts = ', '.join(parts)
+        op_name = 'Cage_op(%s:%s:[%s])' % (target, op_char, cell_parts)
 
-    #for row in range(n):
-        #for col in range(n):
+        if op_char == '?':
+            op_var = Variable(op_name, domain)
+        else:
+            op_var = Variable(op_name, [op_char])
 
+        csp.add_var(op_var)
+        all_vars.append(op_var)
 
-    pass
+        # Cage constraint scope = cell variables + operator variable
+        scope = cage_cell_vars + [op_var]
+        con = Constraint('Cage_%d' % i, scope)
+
+        # Domains don't change between cells
+        cell_domains = [range(1, n + 1)] * len(cage_cell_vars)
+        sat_tuples = []
+        
+        # Try all value assignments
+        for vals in itertools.product(*cell_domains):
+            for op_val in op_var.domain():
+                found = False
+                for permutation in itertools.permutations(vals):
+                    if op_val == '+':
+                        result = sum(permutation)
+                    elif op_val == '*':
+                        result = 1
+                        for v in permutation:
+                            result *= v
+                    elif op_val == '-':
+                        result = permutation[0]
+                        for v in permutation[1:]:
+                            result -= v
+                    elif op_val == '/':
+                        result = permutation[0]
+                        ok = True
+                        for v in permutation[1:]:
+                            if v == 0 or (result % v) != 0:
+                                ok = False
+                                break
+                            result //= v
+                        if not ok:
+                            result = None
+                    elif op_val == '%':
+                        result = sum(permutation) % n
+                    else:
+                        result = None
+
+                    if result is not None and result == target:
+                        sat_tuples.append(tuple(list(vals) + [op_val]))
+                        found = True
+                        break
+                if found:
+                    break
+        
+        # Finalize constraint
+        con.add_satisfying_tuples(sat_tuples)
+        csp.add_constraint(con)
+    
+    return csp, all_vars
