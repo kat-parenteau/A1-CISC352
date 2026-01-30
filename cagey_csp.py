@@ -214,7 +214,6 @@ def cagey_csp_model(cagey_grid):
     ''' A model built using your choice of (1) binary not-equal, or (2) n-ary all-different constraints for the
     grid, together with (3) cage constraints. That is, you will choose one of the previous two grid models
     and expand it to include cage constraints '''
-    def cagey_csp_model(cagey_grid):
     # Build base grid CSP (binary ne)
     csp, board_vars = binary_ne_grid(cagey_grid)
     n, cages = cagey_grid
