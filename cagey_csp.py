@@ -118,47 +118,47 @@ def binary_ne_grid(cagey_grid):
     n = list(cagey_grid)[0]
     variables = []
 
-    # Loop through all squares and create a variable for each
+    # loop through all squares and create a variable for each
     for row in range(1, n + 1):
         for col in range(1, n + 1):
             domain = list(range(1, n + 1))
             var = Variable(f"Cell({row},{col})", domain)
             variables.append(var)
 
-    # Create a csp of the variables
+    # create a csp of the variables
     csp = CSP("binary_ne", variables)
 
-    # Define satisfactory tuples (rows and cols can't equal each other)
+    # define satisfactory tuples (rows and cols can't equal each other)
     sat_tuples = []
     for a in range(1, n + 1):
         for b in range(1, n + 1):
             if a != b:
                 sat_tuples.append((a, b))
 
-    # Column constraints
+    # column constraints: ensure all cells in a column have different values
     for col in range(n):
         for row1 in range(n):
             for row2 in range(row1 + 1, n):
                 var1 = variables[row1 * n + col]
                 var2 = variables[row2 * n + col]
                 con = Constraint(f"Column({col},[{row1},{row2}])", [var1, var2])
-                # Calculate satisfying tuples
+                # add satisfying tuples to the constraint
                 con.add_satisfying_tuples(sat_tuples)
                 csp.add_constraint(con)
 
-    # Row constraints
+    # row constraints: ensure all cells in a row have different values
     for row in range(n):
         for col1 in range(n):
             for col2 in range(col1 + 1, n):
                 var1 = variables[row * n + col1]
                 var2 = variables[row * n + col2]
                 con = Constraint(f"Row({row},[{col1},{col2}])", [var1, var2])
-                # Calculate satisfying tuples
+                # add satisfying tuples to the constraint
                 con.add_satisfying_tuples(sat_tuples)
                 csp.add_constraint(con)
     
 
-    # Retrun csp, vars
+    # return csp and variables
     return csp, variables
 
 
@@ -167,47 +167,49 @@ def nary_ad_grid(cagey_grid):
     ''' A model of a Cagey grid (without cage constraints) built using only n-ary all-different constraints
     for both the row and column constraints. '''
 
+    # extract grid size from cagey_grid tuple
     n = list(cagey_grid)[0]
     variables = []
 
-    # Loop through all squares and create a variable for each
+    # loop through all grid squares and create a variable for each cell
+    # each variable has a domain of values from 1 to n
     for row in range(1, n + 1):
         for col in range(1, n + 1):
             domain = list(range(1, n + 1))
             var = Variable(f"Cell({row},{col})", domain)
             variables.append(var)
 
-    # Define csp
+    # create a csp with all cell variables
     csp = CSP("nary_ad", variables)
 
-    # All possible permutations
+    # generate all possible permutations of n values for satisfying tuples
     sat_tuples = list(itertools.permutations(range(1, n + 1), n))
 
-    # Column constraints
+    # add column constraints: each column must contain all different values
     for col in range(n):
         col_vars = []
-        # Loop through rows and get column variables
+        # collect all variables in the current column
         for row in range(n):
             col_vars.append(variables[row*n + col])
-        # Create consdtraint
+        # create an n-ary all-different constraint for this column
         con = Constraint(f"Row({row}), Col({col})", col_vars)
-        # Calculate satisfying tuples
+        # add all valid permutations as satisfying tuples
         con.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(con)
 
-    # Row constraints
+    # add row constraints: each row must contain all different values
     for row in range(n):
         row_vars = []
-        # Loop through columns and get row variables
+        # collect all variables in the current row
         for col in range(n):
             row_vars.append(variables[row*n + col])
-        # Create constraint
+        # create an n-ary all-different constraint for this row
         con = Constraint(f"Row({row}), Col({col})", row_vars)
-        # Calculate satisfying tuples
+        # add all valid permutations as satisfying tuples
         con.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(con)
 
-    # Return csp and vars
+    # return the csp and list of all variables
     return csp, variables
 
 def cagey_csp_model(cagey_grid):
