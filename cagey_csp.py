@@ -214,46 +214,54 @@ def cagey_csp_model(cagey_grid):
     ''' A model built using your choice of (1) binary not-equal, or (2) n-ary all-different constraints for the
     grid, together with (3) cage constraints. That is, you will choose one of the previous two grid models
     and expand it to include cage constraints '''
-    # Build base grid CSP (binary ne)
+
+    # build base grid CSP (binary ne)
     csp, board_vars = binary_ne_grid(cagey_grid)
     n, cages = cagey_grid
     all_vars = list(board_vars)
     domain = ['+', '-', '*', '/', '%']
 
-    # Go through each cage
+    # go through each cage, use enumerate so that the cages are iterable
     for i, (target, cells, op_char) in enumerate(cages):
-        # Find cell variables for this cage
-        cage_cell_vars = [board_vars[(row - 1) * n + (col - 1)] for (row, col) in cells]
+        # find cell variables for this cage
+        cage_cell_vars = []
+        for (row, col) in cells:
+            # calculate the index in the linear variable array
+            cell_index = (row - 1) * n + (col - 1)
+            cage_cell_vars.append(board_vars[cell_index])
 
-        # Create operator variable
+        # create operator variable with appropriate name
         parts = []
         for (row, col) in cells:
-            parts.append('Var-Cell(%d,%d)' % (row, col))
-        
+            parts.append(f'Var-Cell({row},{col})')
         cell_parts = ', '.join(parts)
-        op_name = 'Cage_op(%s:%s:[%s])' % (target, op_char, cell_parts)
+        op_name = f'Cage_op({target}:{op_char}:[{cell_parts}])'
 
+        # determine operator variable domain based on whether operation is known or not
         if op_char == '?':
             op_var = Variable(op_name, domain)
         else:
             op_var = Variable(op_name, [op_char])
 
+        # add operator variable to csp and tracking list
         csp.add_var(op_var)
         all_vars.append(op_var)
 
-        # Cage constraint scope = cell variables + operator variable
+        # cage constraint scope = cell variables + operator variable
         scope = cage_cell_vars + [op_var]
-        con = Constraint('Cage_%d' % i, scope)
+        con = Constraint(f'Cage_{i}', scope)
 
-        # Domains don't change between cells
+        # create domain for each cell in the cage
         cell_domains = [range(1, n + 1)] * len(cage_cell_vars)
         sat_tuples = []
         
-        # Try all value assignments
+        # try all value assignments for cells and operators
         for vals in itertools.product(*cell_domains):
             for op_val in op_var.domain():
                 found = False
+                # check all permutations of cell values
                 for permutation in itertools.permutations(vals):
+                    # evaluate result based on operation type
                     if op_val == '+':
                         result = sum(permutation)
                     elif op_val == '*':
@@ -275,10 +283,12 @@ def cagey_csp_model(cagey_grid):
                         if not ok:
                             result = None
                     elif op_val == '%':
+                        # modular addition operation
                         result = sum(permutation) % n
                     else:
                         result = None
 
+                    # check if result matches target value
                     if result is not None and result == target:
                         sat_tuples.append(tuple(list(vals) + [op_val]))
                         found = True
@@ -286,7 +296,7 @@ def cagey_csp_model(cagey_grid):
                 if found:
                     break
         
-        # Finalize constraint
+        # finalize constraint by adding satisfying tuples and adding to csp
         con.add_satisfying_tuples(sat_tuples)
         csp.add_constraint(con)
     
